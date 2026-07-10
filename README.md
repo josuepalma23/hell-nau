@@ -1,3 +1,25 @@
-hola 
-josue 
-yeye
+# Introducción
+En el marco de la materia de Compiladores y Lenguajes, el estudio detallado de los componentes internos y el análisis de sus aplicaciones en el mundo real son indispensables para entender el impacto de estas herramientas en la sociedad actual. El desarrollo de software, pilar fundamental de la tecnología de los últimos años, depende íntimamente del correcto uso de principios y conceptos de ingeniería en la construcción de los aplicativos que utilizamos a diario. Es por esto, considerando el alcance de este proyecto, es esencial establecer un contexto y una justificación teórica rigurosa y fundamentada respecto a los procesos que se llevan a cabo junto a la compilación. En concreto, para lograr comprender el Análisis Semántico, se discernirán a profundidad temas derivados a este núcleo, como los Sistemas de Tipos, la Comprobación y Conversión de los mismos, así como el papel que estos elementos tienen dentro del proceso de Traducción en general.
+
+El proceso de traducción que sufre un lenguaje de programación de alto nivel a código de máquina es uno de los logros más importantes en la historia de las ciencias de computación, dado que para que se puedan ejecutar las abstracciones escritas por un programador, el código fuente necesita atravesar una gran cantidad de transformaciones. Entre ellas, se encuentra el análisis léxico, encargado de juntar las secuencias de caracteres del código en unidades lógicas con significado para la máquina, a estas unidades lógicas se las conoce como tokens. Siguiendo el flujo de traducción, se encuentra el análisis sintáctico, que construye el Árbol Sintáctico con el objetivo de verificar que la disposición de los tokens sea la correcta y cumpla con las reglas gramaticales definidas por el lenguaje.
+
+Aun así, existen dificultades adicionales, pues el hecho de que un programa fuente sea verificado como gramaticalmente correcto, no quiere decir que tenga el sentido computacional deseado. Por ejemplo, en una sentencia concreta de código donde se compare un tipo de dato String con un tipo de dato Int sigue una estructura de Identificador = Expresión + Constante, que en el sentido gramatical cumple todas las reglas requeridas, sin embargo, desde una perspectiva lógica y técnica, los tipos de datos involucrados en esta operación corresponden a una violación de las reglas computacionales correspondientes, así como la asignación de esta operación ilegal a un identificador, por lo tanto, si se llegase a intentar compilar esta sentencia, llegaríamos a una inevitable falla del sistema e incluso la corrupción de la memoria durante la ejecución. Es en este escenario donde interviene la fase del Análisis Semántico, actuando como el conector y filtro de seguridad definitivo entre la validación estructural del código fuente y la síntesis del mismo.
+
+Entonces, el Análisis Semántico es una fase característica del compilador responsable de verificar las reglas dependientes del lenguaje, enfocándose especialmente en el contexto del lenguaje de programación. Su propósito y principal objetivo es garantizar que el programa fuente no solo esté gramaticalmente correcto, sino también que las instrucciones que se incluyan en el tengan un significado coherente y seguro, acorde a las reglas semánticas del lenguaje, para llegar a este objetivo, el analizador semántico recorre el árbol generado en la fase semántica y se apoya en la Tabla de Símbolos, una de las estructuras de datos más importantes en el proceso de Traducción, ya que sirve de diccionario para el compilador, almacenando los metadatos de cada uno de los identificadores registrados, así como su alcance, su ubicación en memoria y su tipo de dato.
+
+Dentro de esta etapa se realizan muchas otras validaciones, como asegurarse de que las variables hayan sido declaradas con anterioridad, que los identificadores sean únicos en comparación al resto dentro del programa fuente, así como que las funciones reciban la cantidad de parámetros correcta y en el orden correcto. El presente proyecto se enfocará también en uno de los aspectos más importantes dentro del Análisis Semántico, como son los Sistemas de Tipos, se explorará como el compilador asegura la seguridad de la información a través del Comprobador de Tipos, que aplica las reglas de inferencia matemática para validar el contexto de cualquier operación dada.
+
+De la misma manera, se analizarán los mecanismos de Conversión de Tipos, estudiando cómo el compilador maneja las situaciones en las que los tipos de datos no son idénticos pero compatibles en cuanto a la arquitectura del computador, es en este nivel donde se discuten temas de transformación implícita o explícita dentro del programa. Es así, que el presente informe abarcará los temas requeridos, dividiéndose en bloques fundamentales de teoría y práctica.
+
+# Fundamentos
+Para comprender la magnitud de este tópico, se ha delimitado el apartado de fundamentos en 5 puntos importantes:
+
+## ¿Qué es el análisis semántico?
+## ¿Para qué sirve el análisis semántico?
+## ¿Qué son los sistemas de tipos?
+## ¿Qué son las conversiones y comprobaciones de tipos?
+## ¿Para qué sirven las conversiones y comprobaciones de tipos?
+
+# Ejercicios
+
+# Conclusiones
