@@ -15,6 +15,37 @@ De la misma manera, se analizarán los mecanismos de Conversión de Tipos, estud
 Para comprender la magnitud de este tópico, se ha delimitado el apartado de fundamentos en 5 puntos importantes:
 
 ## ¿Qué es el análisis semántico?
+El proceso de traducción en la clásica arquitectura de una computadora se describe como un pipeline el cual está compuesto por diversas fases secuenciales y sumamente específicas. La tercera fase de este proceso la conforma el análisis semántico que está estratégicamente ubicada en el núcleo del front-end del compilador, entre el análisis sintáctico o parsing y la generación de código intermedio.
+Bajo una óptica de la teoría de lenguajes formales y después de las limitaciones intrínsecas a la Jerarquía de Chomsky, el análisis semántico surge como una necesidad. Cuando en un programa el analizador sintáctico es el responsable de validar que este mismo acate las reglas de una gramática de contexto libre (lo que quiere decir que la estructura y el orden de los tokens formen oraciones correctas y que se puedan aceptar), el análisis semántico es el componente encargado de corroborar la veracidad en las reglas dependientes del contexto.
+
+### Contexto y significado computacional
+En un contexto técnico, el análisis semántico es la fase que le concede un significado a la estructura de un programa o código, ya que este puede estar bien escrito según las diversar reglas gramaticales de un lenguaje, pero puede precisar viabilidad computacional. El punto de partida fundamental de esta fase es que no solo es necesario que una instrucción esté bien formulada de manera geométrica, ya que sus componentes abstractos deben tener alta cohesión lógicamente, consistente y certera según el contexto dado.
+Para poner un ejemplo, la regla gramatical para una asignación por convención suele ser `IDENTIFICADOR = EXPRESION;`. El analizados sintáctico toma como correcta la instricción `unSaludo = 'Hola' * 5;`, ya que este puede reconocer un identificador, un operador de asignación, una expresión y un delimitador. No obstante, esto no significa que el analizador sintáctico tenga la capacidad de comprender qué es lo que representan estos elementos, sino es el analizador semántico el que tiene el concepto de memoria contextual.
+
+### Árbol sintáctico y tabla de símbolos
+Para que el analizador semántico pueda realizar sus tareas y procesos requiere de dos estructuras de datos primordiales que actúan en conjunto:
+
+- Árbol sintáctico abstracto
+
+Es la representación topológica de la estructura del programa que fue generada en la fase de análisis sintáctico, en donde cada uno de los nodos representan una operación, y cada arista representa un operando.
+
+- Tabla de símbolos
+
+Es el repositorio en el cual se almacenan los metadatos del compilador, que funciona como un diccionario optimizado, usualmente implementado con tablas hash, en donde se registra cada uno de los identificadores que fueron previamente declarados por el programador. Para cada identificador la tabla guarda atributos importantes como lo pueden ser su nombre, tipo de dato, nivel de acceso, dirección relativa en memoria y su ámbito o scope.
+
+### Traducción dirigida por sintaxis y gramáticas de atributos
+El análisis semántico se implementa por medio de la traducción dirigida por sintaxis la cual es apoyada en gramáticas de atributos, este modelo logra asociar reglas semánticas a cada regla de producción gramatical. Dentro del campo de los atributos estos se pueden clasificar en dos tipos:
+
+- Atributos sintetizados
+
+Son atributos que su valor se calcula a partir de los valores de los atributos de sus nodos hijos. Para poner un ejemplo, dada una expresión `E -> E1 + E2`, el tipo de E se sintetiza evaluando los tipos de E1 y E2, es decir, el recorrido de la información es de abajo hacia arriba, bottom-up.
+
+- Atributos heredados
+
+Son atributos que su valor se calcula dependiendo de los atributos de su nodo padre o sus nodos hermanos, en donde el recorrido de la información es de arriba hacia abajo, top-down.
+
+El hecho de recorrer un árbol sintáctico abstracto y calcular estos atributos tiene un nombre y es decoración del árbol. Cuando un árbol ya esté completamente decorado y todas las reglas semánticas sean validadas y cumplan su rol a la perfección, el compilador tiene la certeza matemática de que no solo el programa está estructurado perfectamente, sino que sus instrucciones tienen sentido computacional. Con todo esto en consideración, el árbol sintáctico abstracto ya puede ser transformado en código intermedio tridimensional.
+
 ## ¿Para qué sirve el análisis semántico?
 ## ¿Qué son los sistemas de tipos?
 ## ¿Qué son las conversiones y comprobaciones de tipos?
