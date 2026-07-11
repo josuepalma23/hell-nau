@@ -69,7 +69,20 @@ Este proceso se ve reflejado también en el árbol sintáctico, si el analizador
 El casting ocurre en escenarios donde el programador intenta forzar una asignación de datos que representa un estrechamiento. Esto supone un peligro dado que implica mover datos de un contenedor grande en memoria a uno pequeño, como por ejemplo, transformar un double de 64 bits a un entero de 32 bits, lo que puede suponer una pérdida de precisión en los valores decimales o una pérdida de magnitud o desbordamiento. Dado que supone una "destrucción", el compilador se protege y prohíbe las coerciones implícitas, en su lugar, le pide al desarrollador que utilice una sintaxis específica, que actúe como un contrato con el analizador semántico donde se asume que se perderá cierta cantidad de precisión.
 
 ## ¿Para qué sirven las conversiones y comprobaciones de tipos?
+A pesar de que puede parecer que las reglas restrictivas y "autoritarias" impuestas por el compilador para realizar comprobaciones y verificaciones extras, su propósito responde a necesidades a nivel de hardware, de confiabilidad y de traducción física. La traducción física es un pilar fundamental en esta fase, dado que son una serie de garantías mecánicas que sustentan la compilación y la integridad de la máquina como tal.
 
+### Garantías de Ciberseguridad e Integridad Estructural
+El propósito de las comprobaciones de tipos es blindar el comportamiento del programa ante operaciones ilógicas, incoherentes o ilegales en el contexto del lenguaje de programación, dichas operaciones podrían afectar el sistema de forma permanente, corrompiendo algunos de sus elementos. A gran escala, este tipo de errores podría suponer la caída de una base de datos esencial, cálculos financieros erróneos, e incluso pueden suponer que personas afectadas se puedan poner en peligro.
+
+Cuando se discute la seguridad informática, la comprobación de tipos es una "línea de defensa" contra vulnerabilidades críticas, por ejemplo, si el compilador desease tratar un arreglo de 10 enteros como un puntero de memoria sin ninguna validación, atacantes podrían manipular esta variable para leer información privilegiada o sobreescribir la pila de llamadas, causando una vulnerabilidad para ejecutar código malicioso. Al aplicar este tipo de comprobaciones de manera determinista, se garantiza que el programa jamás ejecutará comportamientos ajenos a lo que se definió originalmente.
+
+### Flexibilidad y Ergonomía del Desarrollador
+Las operaciones de conversión sirven como facilitadores de productividad para el ingeniero promedio. Las matemáticas computacionales involucran la interacción entre literales, constantes y contadores enteros. Si el compilador careciera de mecanismos de coerción autmática, la expresividad que caracteriza al lenguaje se desplomaría, el programador estaría condenado a escribir castings manuales en todas las ecuaciones que necesite, sin importar cuan pequeñas sean, transformando el proceso sencillo que conocemos al intentar escribir expresiones matemáticas en código a una mezcla de funciones que harían al código ilegible. Es por esto que la coerción nos ayuda a encapsular la complejidad natural del hardware, inyectando nodos al árbol sintáctico automáticamente, permitiéndole al programador a enfocarse en otros aspectos del proceso de desarrollo.
+
+### El puente hacia el Hardware
+Teóricamente, el Análisis Semántico y la comprobación de tipos son el protocolo de traducción entre la matemática que todos los seres humanos aprenden y la electrónica dentro del CPU, el punto de esto es que el hardware no tiene idea sobre la naturaleza de los tipos, solo comprende la lectura de compuertas lógicas, picos de voltaje, transistores, etc.
+
+Es por esto que es tan importante la validación y verificación de tipos. En una operación simple como una suma de valores con tipos enteros, se garantiza al Generador de Código que pueda ensamblar con total seguridad una instrucción en código de máquina que le diga exactamente al computador que hacer dada esta situación o cualquier otra.
 
 # Ejercicios
 
