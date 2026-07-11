@@ -51,6 +51,9 @@ El hecho de recorrer un árbol sintáctico abstracto y calcular estos atributos 
 ## ¿Qué son las conversiones y comprobaciones de tipos?
 ## ¿Para qué sirven las conversiones y comprobaciones de tipos?
 
+
+# Ejercicios
+
 # Conclusiones
 
 A partir del presente proyecto, es posible concluir con certeza que el análisis semántico representa una de las fases más críticas dentro de un compilador, ya que opera como un puente definitivo, responsable de conectar las abstracciones y lexemas escritos por un programador con la realidad física del computador. Es entonces que podemos considerar la etapa de Análisis Semántico como una fase reguladora, dado que, sin ella, el proceso de traducción sería caótico y ciego, obligándonos a conformarnos con un programa fuente ambiguo, incoherente y lógicamente ilegal.  
@@ -59,7 +62,3 @@ Con respecto a los Sistemas de Tipos, se demuestra que estas abstracciones const
 De la misma manera, desde la perspectiva de ciberseguridad, la rigidez que supone un Sistema de Tipos debidamente verificado imposibilita la existencia de exploits relacionados a la confusión de tipos, que facilitaría a atacantes a ejecutar código arbitrario mediante desbordamientos de pila. En el ámbito práctico del Comprobador de Tipos, se puede concluir que las operaciones de conversión, tanto la implícita como explícita, son transformaciones estructurales importantes, que alteran directamente el árbol sintáctico, de manera que su topología y el recorrido que hace el compilador también se altera. Cuando el analizador semántico detecta que se está realizando una operación que mezcla tipos compatibles, pero no idénticos, ocurre una inyección dinámica de un nodo de conversión inmediatamente en el operando de menor jerarquía. 
 
 Finalmente, con respecto a la Tabla de Símbolos, se puede concluir que, como tal, el Análisis Semántico no opera como un algoritmo puramente aislado o de recorrido sin estado, sino que depende de manera absoluta del diseño y la persistencia de la Tabla de Símbolos. La verificación de las reglas de alcance de las variables, el ocultamiento de los identificadores y el bloqueo de declaraciones redundantes exigen que la Tabla de Símbolos esté debidamente implementada, principalmente fundamentada en una pila de tablas hash.  Durante el recorrido del árbol sintáctico, cada entrada y salida de un bloque de código, desde declaraciones y sentencias básicas hasta estructuras de control anidadas y estructuras de datos complejas como listas enlazadas, tablas hash, arreglos, etc, obligan al analizador semántico a mutar el estado global de la tabla, abriendo y cerrando entornos léxicos de manera síncronas, si dada tabla no estuviera diseñada con un alto nivel de eficiencia temporal y espacial, el compilador fallaría en resolver la vinculación correcta de los nombres a sus correspondientes direcciones relativas, por esto mismo, la Tabla de símbolos no es únicamente un componente más, sino el núcleo dinámico del análisis que define la correcta ejecución espacial del programa. 
-
-# Ejercicios
-
-# Conclusiones
