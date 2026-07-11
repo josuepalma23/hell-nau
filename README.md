@@ -47,7 +47,54 @@ Son atributos que su valor se calcula dependiendo de los atributos de su nodo pa
 El hecho de recorrer un árbol sintáctico abstracto y calcular estos atributos tiene un nombre y es decoración del árbol. Cuando un árbol ya esté completamente decorado y todas las reglas semánticas sean validadas y cumplan su rol a la perfección, el compilador tiene la certeza matemática de que no solo el programa está estructurado perfectamente, sino que sus instrucciones tienen sentido computacional. Con todo esto en consideración, el árbol sintáctico abstracto ya puede ser transformado en código intermedio tridimensional.
 
 ## ¿Para qué sirve el análisis semántico?
+La razón de ser del análisis semántico es desempeñar el rol de garante definitivo de la seguridad, coherencia y viabilidad del código fuente previo a que el compilador ocupe recursos de procesamiento en fases siguientes como la optimización o la síntesis de código de máquina. Si un compilador llegase a pasar por alto esta fase e intentara traducir expresiones o instrucciones sintácticamente válidas pero semánticamente incorrectas a un lenguaje ensamblador de manera directa, los programas que se produzcan tendrían errores monumentales en tiempo de ejecución.
+Cuando sucede un error semántico que no se haya detectado en compilación se convierte en un error de ejecución (runtime error), como una violación de segmento (segmentation fault), corrupción de memoria o un comportamiento indefinido (undefined behavior). La función del análisis semántico es el trasladar el hallazgo de estos fallos lógicos desde la máquina del usuario final hasta el entorno de desarrollo del programador, lo que disminuye significativamente el costo temporal y económico del mantenimiento de software.
+El análisis semántico, además de la validación general de tipos, también cumple cinco roles críticos y fundamentales en la arquitectura de una computadora:
+
+### Resolución de nombres y gestión de ámbitos (Scope)
+En la actualidad, los lenguajes de programación distribuyen la memoria en bloques: funciones, clases y bucles. El papel del análisis semántico aquí es rastrear la visibilidad de cada variable, utilizando diversas estrategias como una pila de tabla de símbolos, el analizador corrobora que cada identificador que haya sido utilizado también haya sido declarado anteriormente y sea correctamente accesible desde el punto de llamada. Asímismo, resuelve problemas de ocultamiento, o shadowing, estableciendo que si existe una variable global, por ejemplo `x`, una variable local `x`, una referencia a `x` dentro de la función corresponde a la variable local que está más cerca en el entorno léxico, conectando coherentemente cada uso a su declaración válida.
+
+### Verificación de unicidad y redundancia
+El analizador semántico comprueba detalladamente los contextos de declaración para evitar ambiguedades. Sirve para garantizar que no hayan dos variables que tengan conflictos entre sí, por ejemplo, compartiendo el mismo nombre y coexistiendo en el mismo bloque, ya que el analizador bloquea esta declaración. Esto impide colisiones desastrosas en las referencias de memoria mientras ocurre la fase de enlazado, o linking.
+
+### Verificación estricta del flujo de control
+Algunas instrucciones de los lenguajes de programación contienen una semántica que necesita de un entorno topológico específico. Por ejemplo, las instrucciones de salto como lo pueden ser `break` o `continue` no tienen un sentido abstracto por ellas mismas, ya que su significado existe siempre y cuando existan un contexto de un bucle iterativo, tales como `for`, `while`, `do-while`, o una estructura de selección múltiple como lo es `switch`. El análisis semántico lleva un seguimiento del estado de flujo durante el recorrido del árbol semántico abstracto y emite un error garrafal si llega a detectar una instrucción de control huérfana en medio de una función regular.
+
+### Validación de firmas de funciones y enlace dinámico
+Cuando se procesa una llamada a un subprograma o método, el análisis semántico además de corroborar que el nombre de la función exista, también realiza una inspección exhaustiva de su firma, lo cual implica que se garantice que la cantidad de argumentos enviados sean iguales a la cantidad de parámetros formales declarados. Asímismo, hace un mapeo posicional lo que asegura que el tipo de dato del argumento `N` sea igual al tipo de dato del parámetro formal `N`. En lenguajes orientados a objetos esta fase es la que decide qué versión de un método sobrecargado debe ser invocada, un rol esencial para el polimorfismo temprano.
+
+### Desambiguación para la generación de código hardware
+Una de las funciones más importantes del analizador semántico es la desambiguación de operadores polimórficos; en el código fuente el programador utiliza el operador `+` para distintas cosas, como sumar enteros, sumar flotantes, inclusive para concatenar cadenas de texto. No obstante, los microprocesadores actuales contienen conjuntos de instrucciones (ISA) que están separados para la aritmética de enteros (ALU) y la aritmética de coma flotante (FPU). Una instrucción en el lenguaje ensamblador, por ejemplo `ADD`, es binariamente diferente de `FADD` (Float Add). El análisis semántico funciona para marcar el nodo del árbol con el tipo exacto de la operación, diciéndole al generador de código qué instrucción binaria de silicio debe transmitir sin margen de error.
+
 ## ¿Qué son los sistemas de tipos?
+Un sistema de tipos consiste en un conjunto de reglas lógicas y matemáticas que son utilizados los lenguajes de programación para identificar y clasificar los valores, variables y expresiones en diversos grupos mutuamente excluyentes, llamadas "tipos", siendo la base teórica en donde opera el analizador semántico. El sistema de tipos define determinísticamente qué operaciones son correctas sobre qué entidades y también decide cómo la información abstracta debe ser modelada y representada en la memoria física.
+Dentro de la teoría de la computación, a nivel de hardware el concepto de tipo de dato es inexistente. La memoria RAM y los registros del procesador solo guardan y emiten secuencias sin interrumpir de ceros y unos, los llamados bits. El sistema de tipos es una abstracción meramente linguística y de software la cual es impuesta por el compilador para proveer de semántica a esa amalgama binaria. Una secuencia de 32 bits, por ejemplo: `01001001010000100100000001000100`, puede representar un número entero, un número fraccionario en la notación científica IEEE 754, una instrucción de salto, una cadena de caracteres como ABCD en código ASCII, etc. Es solo el sistema de tipos el que le exige al compilador cómo interpretar esos bits, previniendo que el texto sea multiplicado por el color de un píxel.
+
+### Clasificaciones arquitectónicas de los sistemas de tipos
+En la actualidad, los lenguajes de programación se ubican en diversos espectros metodológicos, en función de la exactitud y el momento en que aplican las reglas de su sistema de tipos:
+
+- Tipado Estático:
+
+En los lenguajes de programación como lo pueden ser C, C++, Java, Rust, la naturaleza de todas las entidades o variables y expresiones es determinado de manera irreversible en el tiempo de compilación (compile-time). El analizador semántico debe tener la capacidad de probar matemáticamente la validez de todas las operaciones previo a generar el binario final. Esta rigidez produce programas optimizados y seguros, puesto a que el procesador no pierde tiempo verificando tipos mientras ejecuta, todo esto a expensas de una mayor verbosidad por parte del programador.
+
+- Tipado Dinámico:
+
+En los lenguajes de programación de scripting, como lo son Python, JavaScript, Ruby, las variables carecen de un tipo fijo, ya que son solo referencias en memoria. Son los valores los que contienen el tipo en tiempo de ejecución (run-time), en donde el análisis semántico estático es mínimo o prácticamente nulo. La responsabilidad de verificación la tiene directamente el intérprete o la virtual machine, lo cual flexibiliza el desarrollo pero intrínsecamente introduce una sobrecarga en la CPU y riesgo de fallos tardíos en entornos de producción.
+
+### Expresiones y constructores de tipos
+Para que el analizador semántico pueda funcionar, el sistema de tipos debe tener la capacidad de representar la información sencilla y también las estructuras de datos abstractas de la ingeniería de software, lo cual es posible por medio del uso formal de expresiones de tipos:
+
+1. Tipos primitivos (básicos): Representan valores simples que no pueden deconstruirse más y que son directamente soportados por el hardware. Dentro de estos tipos se tienen a los enteros (int), punto flotante (float), booleanos (bool) y caracteres (char). También existe un tipo vacío formal (void).
+
+2. Constructores de tipos:
+    - Arreglos: `array(I,T)`. Son una estructura de datos que almacena una colección de elementos de tipo T, indexados por un rango I.
+    - Productos cartesianos/registros: `T1 * T2 * ... * Tn`. Contiene múltiples tipos en un mismo bloque de memoria, conocido popularmente como struct en el lenguaje de programación C o propiedades de una clase.
+    - Punteros: `pointer(T)`. Crea un tipo el cual su valor es exclusivamente una dirección de memoria en donde se encuentra una entidad del tipo T.
+    - Funciones: `T1 * T2 -> Tr`. El tipo de una función es definido por el producto cartesiano de los tipos de sus argumentos entrantes, que son mapeados hacia su tipo de retorno Tr.
+
+### Equivalencia de tipos
+Cuando el analizador semántico llega a comparar dos entidades para determinar su compatibilidad, por ejemplo: `variableA = variableB;`, el sistema de tipos debe decidir qué significa que dos variables sean iguales. En la equivalencia estructural, dos tipos son iguales si su disposición interna en memoria es la misma, por ejemplo: dos `structs` distintos que poseen ambos un solo entero. En la equivalencia por nombre, la cual es la más utilizada en la actualidad por la industria, dos tipos son iguales si fueron declarados con el mismo identificador exactamente, protegiendo la semántica que el programador puso como objetivo darle a los datos, independientemente de su estructura física en bytes.
+
 ## ¿Qué son las conversiones y comprobaciones de tipos?
 Las conversiones y comprobaciones son dos elementos fundamentales que el analizador semántico emplea para lograr cumplir con lo que realmente pide el Sistema de Tipos. Representan la validación de las reglas teóricas y son los procesos que consumen la mayor parte del tiempo de entre todas las fases de la compilación.
 
