@@ -49,6 +49,25 @@ El hecho de recorrer un árbol sintáctico abstracto y calcular estos atributos 
 ## ¿Para qué sirve el análisis semántico?
 ## ¿Qué son los sistemas de tipos?
 ## ¿Qué son las conversiones y comprobaciones de tipos?
+Las conversiones y comprobaciones son dos elementos fundamentales que el analizador semántico emplea para lograr cumplir con lo que realmente pide el Sistema de Tipos. Representan la validación de las reglas teóricas y son los procesos que consumen la mayor parte del tiempo de entre todas las fases de la compilación.
+
+### Comprobación de Tipos
+Se comprende a la comprobación de tipos como el proceso exhaustivo de verificación para que cada construcción de código y cada una de las operaciones matemáticas o lógicas formuladas en el proceso de desarrollo respete al pie de la letra las restricciones proporcionadas por el lenguaje.
+
+En la práctica, el comprobador funciona recorriendo el Árbol Sintáctico con el algoritmo de post-orden, para cada uno de los nodos del árbol, el comprobador aplica reglas de deducción para sintetizar el tipo resultante de la operación y sobre todo, valida su legalidad dentro del contexto del lenguaje. En la teoría de compiladores, se expresa el comportamiento del comprobador mediante una serie de axiomas, entre ellos el símbolo `Γ`, que representa la Tabla de Símbolos, y el símbolo `⊢`, que quiere decir "deriva o demuestra". En un ejemplo rápido, 
+`Γ ⊢ e: T` significa: "En la tabla de símbolos, se demuestra que la expresion `e` tiene el tipo `T`. 
+
+### Conversiones de Tipos
+Comúnmente en el desarrollo de software, los programadores suelen necesitar entidades de distintos tipos que operan entre sí de manera que se mezclan con coherencia dentro del contexto del programa fuente, por ejemplo, una fórmula matemática que contiene un número entero multiplicado por una constante flotante como pi. Las conversiones de tipos son transformaciones algorítmicas que pueden ser inducidas por el compilador de forma automática o solicitadas por el usuario, estas alteran temporal o permanentemente el tipo de una expresión con el objetivo de satisfacer una regla de comprobación dada por el lenguaje. Existen 2 tipos diferentes de conversiones:
+
+#### Conversión Implícita (Coerción)
+El compilador realiza transformaciones de datos en segundo plano de forma automática sin la intervención del programador. Se sigue una regla muy importante dentro de la coerción y es que se realiza únicamente si representa un proceso seguro de ensanchamiento, lo que quiere decir promover un tipo de menor capacidad de memoria a un tipo de mayor capacidad de memoria, por ejemplo, un dato short de 16 bits a entero de 32 bits.
+
+Este proceso se ve reflejado también en el árbol sintáctico, si el analizador se encuentra con la suma de dos tipos diferentes de datos, la regla de inferencia falla, sin embargo, antes de emitir un error, el analizador toma acción ante esta situación y verifica si uno de los datos es ensanchable al otro, alterando por completo la estructura del árbol sintáctico, inyectando un nuevo nodo como padre de uno de los datos, esto ayudará a que la comprobación se pueda realizar sin ningún problema.
+
+#### Conversión Explícita (Casting)
+El casting ocurre en escenarios donde el programador intenta forzar una asignación de datos que representa un estrechamiento. Esto supone un peligro dado que implica mover datos de un contenedor grande en memoria a uno pequeño, como por ejemplo, transformar un double de 64 bits a un entero de 32 bits, lo que puede suponer una pérdida de precisión en los valores decimales o una pérdida de magnitud o desbordamiento. Dado que supone una "destrucción", el compilador se protege y prohíbe las coerciones implícitas, en su lugar, le pide al desarrollador que utilice una sintaxis específica, que actúe como un contrato con el analizador semántico donde se asume que se perderá cierta cantidad de precisión.
+
 ## ¿Para qué sirven las conversiones y comprobaciones de tipos?
 
 
