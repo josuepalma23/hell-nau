@@ -137,23 +137,23 @@ Es por esto que es tan importante la validación y verificación de tipos. En un
 
 Para este ejercicio, tomamos una línea de código básica y común, de manera que podemos generalizar el proceso de un ejercicio de Análisis Semántico, utilizando los elementos básicos del analizador expuestos previamente.
 
-1. Primero, definimos bien el enunciado y tomamos en cuenta las reglas gramaticales dadas por hipótesis:
+**1. Primero, definimos bien el enunciado y tomamos en cuenta las reglas gramaticales dadas por hipótesis:**
 
 Como tal, el objetivo de este ejercicio es demostrar como el Comprobador de Tipos del Analizador Semántico valida una expresión matemática simple, asegurando la compatibilidad de los tipos de datos involucrados en la misma.
 
-2. Reglas y Definición Gramatical
+**2. Reglas y Definición Gramatical**
 
 El compilador recibe la expresión dada y el Analizador Semántico automáticamente consulta a la Tabla de Símbolos el tipo de la variable x, confirmando que fue previamente declarada como float. A continuación, el Comprobador de Tipos utiliza el proceso de traducción dirigido por sintáxis, de manera que cada una de las reglas gramaticales se asocia con una acción lógica o regla semántica. Para este caso, se calcula un atributo sintetizado (tipo), que está distribuido por todo el árbol sintáctico. A continuación se muestran las reglas gramaticales junto al enunciado.
 
 ![enunciado y gramatica](ejercicio1_A.jpg)
 
-3. Árbol Sintáctico
+**3. Árbol Sintáctico**
 
 A partir de las reglas definidas, el Analizador Semántico toma el arbol estructural y comienza a poblarlo con el objetivo de calcular los atributos en cada uno de los nodos. A continuación se muestra el Árbol Sintáctico junto al enunciado.
 
 ![arbol](ejercicio1_B.jpg)
 
-4. Proceso de Evaluación y Explicación
+**4. Proceso de Evaluación y Explicación**
 
 **Evaluación de las hojas y recorrido del árbol:** El analizador realiza un recorrido bottom-up, comenzando desde las hojas y subiendo hasta encontrar la raíz.
 
@@ -170,6 +170,40 @@ A partir de las reglas definidas, el Analizador Semántico toma el arbol estruct
 - Luego, se toma el atributo del lado derecho de la ecuación, que dada la propiedad de dicho atributo se define como flotante-
 
 - Se comparan ambos tipos, y, al ser equivalentes, se cumple la condición de compatibilidad, posteriormente, se marca el nodo raíz con un estado Correcto, el análizador concluye su trabajo y aprueba esta línea de código como semánticamente correcta.
+
+### Ejercicio 2: Validar la expresión “esMayor = edad > 17", asumiendo que la variable esMayor fue declarada como boolean y que la variable edad fue declarada como int.
+
+En este caso, el ejercicio está enfocado en demostrar como se realiza la validación de una expresión por parte del Comprobador de Tipos cuando esta da como resultado un valor lógico o booleano (verdadero o falso).
+
+**1. Condiciones Iniciales dadas por Hipótesis:** El Analizador semántico consulta la Tabla de Símbolos y obtiene algunos datos que ya teníamos en mente:
+
+- La variable "esMayor" fue declarada previamente como boleana.
+- La variable "edad" fue declarada previamente como int.
+
+**2. Definición de Reglas Semánticas y definición gramatical:** Se utiliza un enfoque de atributos sintetizados y se definen las reglas a utilizar en la validación de la expresión:
+
+- **E → numero_entero:** Define al tipo como entero dentro del comprobador.
+- **E → id:** Instruye al comprobador a consultar el tipo de dato de id en la tabla de símbolos.
+- **E → E1 > E2:** Aplica un condicional, si el tipo del lado izquierdo de la comparación es entero y el tipo del lado derecho de la comparación es entero, entonces se define a E como tipo booleano, caso contrario, se reporta un error semántico.
+- **A → id = E:** Aplicamos la comparación final con un condicional que comprueba que ambos lados de la ecuación tienen tipos equivalentes y compatibles, si no es ese el caso, reportar un Error Semántico.
+
+![enunciado y gramatica](ejercicio2_A.jpg)
+
+**Árbol Sintáctico poblado:**
+
+![enunciado y gramatica](ejercicio2_B.jpg)
+
+**Proceso de Evaluación:**
+
+- Al leer la variable edad, se utiliza la producción respectiva que obliga al analizador a consultar la tabla de símbolos, concluyendo que dicha variable es de tipo entero.
+  
+- Al leer el valor 17, se aplica la primera producción, que establece una asignación directa e inmediata del tipo, concluyendo que dicho valor es entero.
+
+- Como consiguiente, ocurre la evaluación de la expresión relacional con el signo "mayor que", donde se utiliza la tercera producción, que dicta que, dados ambos tipos, tanto de E1 como de E2, la comparación lógica es completamente válida y legal, por lo tanto, para el nodo padre, se recibe el atributo sintetizado de tipo booleano.
+
+- Finalmente, el analizador llega al nodo raíz y aplica la última producción, a continuación procede a evaluar ambos lados de la ecuación, consultando la tabla de símbolos para cada uno, y, como consiguiente, comprobando que ambos lados tienen tipos equivalentes, en este caso boolean:boolean.
+
+Conclusión: La expresión es semánticamente correcta y el compilador puede proceder a la respectiva traducción en el siguiente nivel.
 
 # Conclusiones
 
