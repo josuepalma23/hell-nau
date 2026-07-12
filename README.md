@@ -133,6 +133,44 @@ Es por esto que es tan importante la validación y verificación de tipos. En un
 
 # Ejercicios
 
+### Ejercicio 1: Validar la expresión “x = 5 + 3.14", asumiendo que la variable x fue declarada como float.
+
+Para este ejercicio, tomamos una línea de código básica y común, de manera que podemos generalizar el proceso de un ejercicio de Análisis Semántico, utilizando los elementos básicos del analizador expuestos previamente.
+
+1. Primero, definimos bien el enunciado y tomamos en cuenta las reglas gramaticales dadas por hipótesis:
+
+Como tal, el objetivo de este ejercicio es demostrar como el Comprobador de Tipos del Analizador Semántico valida una expresión matemática simple, asegurando la compatibilidad de los tipos de datos involucrados en la misma.
+
+2. Reglas y Definición Gramatical
+
+El compilador recibe la expresión dada y el Analizador Semántico automáticamente consulta a la Tabla de Símbolos el tipo de la variable x, confirmando que fue previamente declarada como float. A continuación, el Comprobador de Tipos utiliza el proceso de traducción dirigido por sintáxis, de manera que cada una de las reglas gramaticales se asocia con una acción lógica o regla semántica. Para este caso, se calcula un atributo sintetizado (tipo), que está distribuido por todo el árbol sintáctico. A continuación se muestran las reglas gramaticales junto al enunciado.
+
+![enunciado y gramatica](ejercicio1_A.jpg)
+
+3. Árbol Sintáctico
+
+A partir de las reglas definidas, el Analizador Semántico toma el arbol estructural y comienza a poblarlo con el objetivo de calcular los atributos en cada uno de los nodos. A continuación se muestra el Árbol Sintáctico junto al enunciado.
+
+![arbol](ejercicio1_B.jpg)
+
+4. Proceso de Evaluación y Explicación
+
+**Evaluación de las hojas y recorrido del árbol:** El analizador realiza un recorrido bottom-up, comenzando desde las hojas y subiendo hasta encontrar la raíz.
+
+- Al leer el valor de 5, se aplica la producción **E → numero_entero**, de manera que se sintetiza ese atributo como tipo entero.
+
+- Al leer el valor de 3.14, se aplica la producción **E → numero_decimal**, de manera que se deduce que es un valor decimal y se sintetiza como tipo flotante.
+
+**Evaluación de la Expresión:** El analizador sube un nivel y agrupa los valores anteriores con el operador de suma, aplicando la producción **E → E1 + E2**, en este caso, E1 pasaría a ser un valor entero y E2 un valor flotante.
+
+**Evaluación de la Asignación:** El analizador llega finalmente a la raíz del árbol y aplica la producción principal **A → id = E**.
+
+- Primero, evalúa el lado izquierdo de la ecuación, al consultar la Tabla de Símbolos, se comprueba que la variable x fue declarada como float.
+
+- Luego, se toma el atributo del lado derecho de la ecuación, que dada la propiedad de dicho atributo se define como flotante-
+
+- Se comparan ambos tipos, y, al ser equivalentes, se cumple la condición de compatibilidad, posteriormente, se marca el nodo raíz con un estado Correcto, el análizador concluye su trabajo y aprueba esta línea de código como semánticamente correcta.
+
 # Conclusiones
 
 A partir del presente proyecto, es posible concluir con certeza que el análisis semántico representa una de las fases más críticas dentro de un compilador, ya que opera como un puente definitivo, responsable de conectar las abstracciones y lexemas escritos por un programador con la realidad física del computador. Es entonces que podemos considerar la etapa de Análisis Semántico como una fase reguladora, dado que, sin ella, el proceso de traducción sería caótico y ciego, obligándonos a conformarnos con un programa fuente ambiguo, incoherente y lógicamente ilegal.  
